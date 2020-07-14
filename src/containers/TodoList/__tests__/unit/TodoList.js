@@ -1,10 +1,8 @@
 import React from 'react'
 import Enzyme, { shallow } from 'enzyme'
-import Adapter from 'enzyme-adapter-react-16'
 import TodoList from '../../index'
-
+import Adapter from 'enzyme-adapter-react-16'
 Enzyme.configure({ adapter: new Adapter() })
-
 it('TodoList 初始化列表为空', () => {
   const wrapper = shallow(<TodoList />)
   expect(wrapper.state('undoList')).toEqual([])
