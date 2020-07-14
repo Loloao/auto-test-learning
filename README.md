@@ -350,6 +350,32 @@ test('addDivToBody 测试', () => {
 })
 ```
 
+## Enzyme 配置
+
+Enzyme 来自 airbnb 公司，是一个用于 React 的 JavaScript 测试工具，方便你判断、操纵和历遍 React Components 输出。
+
+- enzyme 实际上就是对 react-dom 做了一些封装，所以不需要 react-dom
+- `shallow`方法实际上就是一个浅渲染，它只关注输入的组件的渲染，对组件中的子组件会以简单的形式代替。它对单个组件做单元测试非常合适
+  - `find`相当于一个 dom 选择器
+  - `debug`能够输出 bug 日志
+- `mount`与`shallow`相反，为全渲染，这个适用于集成测试
+- 为防止某些选择器比如类选择器和代码耦合，可以在组件中加一个`data-test`属性，再通过`find([data-test='container'])`选择
+- `npm i jest-enzyme -D`，注意我们需要先初始化这个插件，可以把初始化代码放在`jest.config.js`中
+- `simulate`模拟事件，在事件触发之后如果还想使用这个组件，就需要重新获取
+
+```javascript
+const fn = jest.fn()
+const wrapper = shallow(<Header addUndoItem={fn} />)
+const inputElem = wrapper.find("[data-test='input']")
+const userInput = '学习 React'
+wrapper.setState({ value: userInput })
+inputElem.simulate('keyUp', {
+  keyCode: 13,
+})
+const newInputElem = wrapper.find("[data-test='input']")
+expect(newInputElem.prop('value')).toBe('')
+```
+
 ## TDD (Test Driven Development) 测试驱动的开发
 
 1. 编写测试用例
