@@ -361,7 +361,7 @@ Enzyme 来自 airbnb 公司，是一个用于 React 的 JavaScript 测试工具�
 - `mount`与`shallow`相反，为全渲染，这个适用于集成测试
 - 为防止某些选择器比如类选择器和代码耦合，可以在组件中加一个`data-test`属性，再通过`find([data-test='container'])`选择
 - `npm i jest-enzyme -D`，注意我们需要先初始化这个插件，可以把初始化代码放在`jest.config.js`中
-- `simulate`模拟事件，在事件触发之后如果还想使用这个组件，就需要重新获取
+- `simulate`模拟事件，在事件触发之后如果还想使用这个组件，就需要重新获取。有时模拟事件获取不到 e，这是可以写成`e && e.stopPropagation()`
 
 ```javascript
 const fn = jest.fn()
@@ -394,5 +394,9 @@ expect(newInputElem.prop('value')).toBe('')
 4. 错误测试代码不容易出现
 
 一般来讲这种测试都是在大型项目需要添加新功能时进行的，它能够帮助我们构建出前端工程的闭环
+
+**TDD 的劣势**
+1. 如果代码的数据结构和组件变化，你要重新编写你的测试用例，也就是你的代码和你的测试逻辑相耦合
+2. 就算单元测试都通过但是项目不一定能够跑起来
 
 ### React 环境中配置 Jest

@@ -78,3 +78,13 @@ body {
   background-color: #e6e6ea;
   text-indent: 0;
 }
+
+.list-item-input {
+  width: 300px;
+  position: relative;
+  top: -1px;
+  line-height: 22px;
+  font-size: 14px;
+  text-indent: 10px;
+  outline: none;
+}

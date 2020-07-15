@@ -14,14 +14,20 @@ class TodoList extends Component {
     return (
       <div>
         <Header addUndoItem={this.addUndoItem} />
-        <UndoList list={undoList} deleteItem={this.deleteItem} />
+        <UndoList
+          changeStatus={this.changeStatus}
+          list={undoList}
+          deleteItem={this.deleteItem}
+          handleBlur={this.handleBlur}
+          valueChange={this.valueChange}
+        />
       </div>
     )
   }
 
   addUndoItem = (value) => {
     const { undoList } = this.state
-    this.setState({ undoList: [...undoList, value] })
+    this.setState({ undoList: [...undoList, { status: 'div', value }] })
   }
 
   deleteItem = (i) => {
@@ -30,6 +36,41 @@ class TodoList extends Component {
     this.setState({
       undoList: newList,
     })
+  }
+
+  changeStatus = (i) => {
+    const newList = this.state.undoList.map((v, i1) => {
+      if (i1 === i) {
+        v.status = 'input'
+      } else {
+        v.status = 'div'
+      }
+      return v
+    })
+
+    this.setState({ undoList: newList })
+  }
+
+  handleBlur = (i) => {
+    const newList = this.state.undoList.map((v, i1) => {
+      if (i1 === i) {
+        v.status = 'div'
+      }
+      return v
+    })
+
+    this.setState({ undoList: newList })
+  }
+
+  valueChange = (i, value) => {
+    const newList = this.state.undoList.map((v, i1) => {
+      if (i1 === i) {
+        v.value = value
+      }
+      return v
+    })
+
+    this.setState({ undoList: newList })
   }
 }
 
