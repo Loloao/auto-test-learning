@@ -361,7 +361,7 @@ Enzyme 来自 airbnb 公司，是一个用于 React 的 JavaScript 测试工具�
 - `mount`与`shallow`相反，为全渲染，这个适用于集成测试
 - 为防止某些选择器比如类选择器和代码耦合，可以在组件中加一个`data-test`属性，再通过`find([data-test='container'])`选择
 - `npm i jest-enzyme -D`，注意我们需要先初始化这个插件，可以把初始化代码放在`jest.config.js`中
-- `simulate`模拟事件，在事件触发之后如果还想使用这个组件，就需要重新获取。有时模拟事件获取不到 e，这是可以写成`e && e.stopPropagation()`
+- `simulate`模拟事件，在事件触发之后如果还想使用这个组件，就需要重新获取。有时模拟事件获取不到 e，这是可以写成`e && e.stopPropagation()`。它的第二个参数用于传入的参数，也可以直接用`simulate('click', {stopPropagation: () => {}})`来代替上个解决方案
 
 ```javascript
 const fn = jest.fn()
@@ -375,6 +375,8 @@ inputElem.simulate('keyUp', {
 const newInputElem = wrapper.find("[data-test='input']")
 expect(newInputElem.prop('value')).toBe('')
 ```
+
+- 当项目集成了 redux 时，在使用`mount`方法时需要将 redux 也集成进测试中，不然数据获取不到
 
 ## TDD (Test Driven Development) 测试驱动的开发
 
@@ -395,8 +397,23 @@ expect(newInputElem.prop('value')).toBe('')
 
 一般来讲这种测试都是在大型项目需要添加新功能时进行的，它能够帮助我们构建出前端工程的闭环
 
-**TDD 的劣势**
-1. 如果代码的数据结构和组件变化，你要重新编写你的测试用例，也就是你的代码和你的测试逻辑相耦合
-2. 就算单元测试都通过但是项目不一定能够跑起来
+**单元测试的优势**
 
-### React 环境中配置 Jest
+1. 测试覆盖率高
+2. 用于写函数库更严谨
+
+**单元测试 的劣势**
+
+1. 业务耦合度高，如果代码的数据结构和组件变化，你要重新编写你的测试用例，也就是你的代码和你的测试逻辑相耦合
+2. 过于独立，就算单元测试都通过但是项目不一定能够跑起来
+3. 代码量大
+
+## BDD (Behavior Driven Development) 行为驱动开发
+
+1. 先写代码再写测试
+2. 一般结合集成测试使用，是黑盒测试
+3. 测试重点在 UI，模拟用户行为
+4. 安全感高
+5. 速度慢
+
+BDD 的测试覆盖率会比较低，但有时会意味着项目更靠谱，所以写业务代码显然更好。
